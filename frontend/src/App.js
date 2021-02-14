@@ -35,7 +35,7 @@ function App() {
         </div>
       </div>
       <ColoredLine color="lightgrey" />
-      <Container/>
+      <Container role={selectedRole == ROLES[0]}/>
     </div>
   ) : (
     <div style={{ 
