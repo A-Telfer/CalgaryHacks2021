@@ -37,8 +37,11 @@ io.on('connection', (socket) => {
     console.log('disconnected')
     delete user_emotions[socket.id]
   })
-});
 
+  socket.on('canvas-data', (data)=> {
+    socket.broadcast.emit('canvas-data', data);  
+  })
+});
 
 http.listen(3001, () => {
   console.log('listening on *:3001');
