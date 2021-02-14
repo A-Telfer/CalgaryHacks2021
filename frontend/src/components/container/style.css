@@ -3,6 +3,7 @@
     top: 150px;
     width: 100%;
     height: 92%;
+    max-width: 9999px !important;
     /* background: linear-gradient(0deg, #ffffff, #ffffff); */
 }
 
@@ -10,6 +11,10 @@
     text-align: center;
     display: inline;
     color: #292929;
+}
+
+.dropdown-toggle {
+    border-radius: 10px !important;
 }
 
 .brushsize-container {
@@ -25,11 +30,12 @@
 
 .tools-section {
     text-align: center;
+    padding: 10px;
 }
 
 .board-container {
-    /* width: 100%; */
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     margin: auto;
     background: lightgrey;
 }

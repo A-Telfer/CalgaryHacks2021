@@ -3,13 +3,16 @@ import logo from './logo.svg';
 import './App.css';
 import Container from './components/container/Container';
 import Emojis from "./components/emojis/Emojis";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 
 const ROLES = ["🧑‍🏫 Professor", "🧑‍🎓 Student"];
 
 const buttonStyle = {
-  padding: '5px',
-  margin: '5px',
-  fontSize: '32px'
+  padding: '15px',
+  margin: '10px',
+  fontSize: '32px',
+  borderRadius: '20px'
 };
 
 function App() {
@@ -32,13 +35,14 @@ function App() {
       <div>
         {
           ROLES.map(role =>
-            <button 
+            <Button 
+              variant="outline-primary"
               style={buttonStyle} 
               onClick={e => {
                 setProfOrStudentSelected(true)
                 setSelectedRole(e.currentTarget.textContent)
               }}
-            >{role}</button>
+            >{role}</Button>
           )
         }
       </div>

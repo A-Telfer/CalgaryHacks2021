@@ -9,6 +9,12 @@ import './style.css';
 import { calcEAR } from "./eye.helper";
 import { HOST } from "../../constants";
 
+import { Button, DropdownButton } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
+import Form from 'react-bootstrap/Form'
+// import { param } from 'jquery';
+
 class Container extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +24,9 @@ class Container extends React.Component {
             color: "#000000",
             size: "5",
             socket: undefined,
-            groupEmotions: ['happy', 'neutral', 'sad']
+            groupEmotions: ['happy', 'neutral', 'sad'],
+            earString: '',
+            tsEarString: Date.now()
         }
     }
 
@@ -28,9 +36,9 @@ class Container extends React.Component {
         })
     }
 
-    changeSize(params) {
+    changeSize(size) {
         this.setState({
-            size: params.target.value
+            size: "" + size
         })
     }
 
@@ -60,10 +68,19 @@ class Container extends React.Component {
             const rightEye = result.landmarks.getRightEye()
             const EAR = calcEAR(leftEye) + calcEAR(rightEye)
             const text = ['EAR: ' + EAR.toString()]
-            if (EAR < 50) {
+            if (EAR < 45) {
                 console.log("ear less than 50", text)
             } else {
                 console.log("ear greater than 50", text)
+            }
+
+            console.log()
+
+            if ((Date.now() - this.state.tsEarString) > 5000) {
+                this.setState({ 
+                    earString: EAR < 45 ? "Drowsy 😴😴" : "",
+                    tsEarString: Date.now()
+                })
             }
 
         } else {
@@ -129,18 +146,47 @@ class Container extends React.Component {
         return (
             <div>
                 <div style={{ display: 'flex', justifyContent: 'space-around', padding: '20px' }}>
-                    <span style={{ fontSize: '40px', fontFamily: 'sans-serif', fontWeight: 'bold' }}>Zoom but better</span>
+                    <span style={{ fontSize: '40px', fontFamily: 'sans-serif', fontWeight: 'bold' }}>Emoji Zoom</span>
                     <div style={{ visibility: this.props.role ? 'visible' : 'hidden' }}>
                         <Emojis order={this.state.groupEmotions} />
                     </div>
                 </div>
                 <div className="container">
-                    <div class="tools-section">
+                    <div className="tools-section">
+
+                        <div style={{ fontSize: '32px', position: 'fixed', right: 10 }}>
+                            { this.state.earString }
+                        </div>
+                        
                         <div className="color-picker-container">
-                            Select Brush Color : &nbsp;
-                        <input type="color" value={this.state.color} onChange={this.changeColor.bind(this)} />
+                            Select Brush Color: &nbsp;
+                        <input 
+                            // style={{ height: '35px', marginTop: '10px' }}
+                            type="color" 
+                            value={this.state.color} 
+                            onChange={this.changeColor.bind(this)} />
                         </div>
 
+                        <div className="brushsize-container">
+                            {/* Select Brush Size : &nbsp; */}
+                        <DropdownButton 
+                            variant="outline-primary"
+                            style={{ display: 'inline' }} 
+                            title={`Select Brush Size (${this.state.size})`}
+                            // onChange={this.changeSize.bind(this)}
+                        >
+                            {
+                                [5, 10, 15, 20, 25, 30].map(item => 
+                                    <Dropdown.Item 
+                                        onClick={() => this.changeSize(item)}
+                                    >
+                                        {item} 
+                                    </Dropdown.Item>
+                                )
+                            }
+                            </DropdownButton>
+                        </div>
+{/* 
                         <div className="brushsize-container">
                             Select Brush Size : &nbsp;
                         <select value={this.state.size} onChange={this.changeSize.bind(this)}>
@@ -151,15 +197,18 @@ class Container extends React.Component {
                                 <option> 25 </option>
                                 <option> 30 </option>
                             </select>
-                        </div>
+                        </div> */}
 
                         <div className="start-webcam-button">
-                            <button onClick={() => this.getVideo()}>Start webcam</button>
+                            <Button 
+                                variant="outline-primary" 
+                                style={{ borderRadius: '10px' }}
+                                onClick={() => this.getVideo()}>Start webcam</Button>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', height: '100%    ' }}>
+                    <div style={{ display: 'flex', height: '100%', justifyContent: 'space-around    ' }}>
                         <div style={{
-                            flex: '1',
+                            flex: '3',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center'
