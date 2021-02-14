@@ -13,7 +13,7 @@ import surprise from './surprise.png'
 class Emojis extends Component {
 
     timeout;
-    socket = io.connect("http://localhost:3000");
+    // socket = io.connect("http://localhost:3000");
 
     constructor(props) {
         super(props);
@@ -41,13 +41,13 @@ class Emojis extends Component {
             <div className="emojis">
                 <div className="align-right">
                 <img className="image"
-                    width="50"
-                    height="50"
+                    width="100"
+                    height="100"
                     src={happy}
                     alt={sad}/>
                 <img className="image"
-                    width="50"
-                    height="50"
+                    width="70"
+                    height="70"
                     src={sad}
                     alt={happy}/>
                 <img className="image"
