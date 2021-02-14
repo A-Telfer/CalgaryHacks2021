@@ -3,10 +3,12 @@ import io from 'socket.io-client';
 
 import './style.css';
 
+import { HOST } from "../../constants";
+
 class Board extends React.Component {
 
     timeout;
-    socket = io.connect("http://localhost:3001");
+    socket = io.connect(HOST);
 
     ctx;
     isDrawing = false;

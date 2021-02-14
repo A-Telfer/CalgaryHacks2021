@@ -7,6 +7,7 @@ import Emojis from "../emojis/Emojis";
 import * as faceapi from 'face-api.js';
 import './style.css';
 import { calcEAR } from "./eye.helper";
+import { HOST } from "../../constants";
 
 class Container extends React.Component {
     constructor(props) {
@@ -34,11 +35,11 @@ class Container extends React.Component {
     }
 
     async loadModel() {
-        await faceapi.nets.tinyFaceDetector.loadFromUri('http://localhost:3001/models')
-        await faceapi.nets.faceLandmark68Net.loadFromUri('http://localhost:3001/models')
-        await faceapi.nets.faceRecognitionNet.loadFromUri('http://localhost:3001/models')
-        await faceapi.nets.faceExpressionNet.loadFromUri('http://localhost:3001/models')
-        await faceapi.nets.faceLandmark68TinyNet.loadFromUri('http://localhost:3001/models')
+        await faceapi.nets.tinyFaceDetector.loadFromUri(HOST + '/models')
+        await faceapi.nets.faceLandmark68Net.loadFromUri(HOST + '/models')
+        await faceapi.nets.faceRecognitionNet.loadFromUri(HOST + '/models')
+        await faceapi.nets.faceExpressionNet.loadFromUri(HOST + '/models')
+        await faceapi.nets.faceLandmark68TinyNet.loadFromUri(HOST + '/models')
         console.log('Models loaded')
     }
 
@@ -70,7 +71,7 @@ class Container extends React.Component {
     }
 
     async connectSocket() {
-        let socket = await io.connect("http://localhost:3001");
+        let socket = await io.connect(HOST);
         this.setState({ socket: socket })
         socket.on('connect', () => {
             console.log('socket connected')
