@@ -6,7 +6,7 @@ import Emojis from "../emojis/Emojis";
 
 import * as faceapi from 'face-api.js';
 import './style.css';
-import { calcEAR} from "./eye.helper";
+import { calcEAR } from "./eye.helper";
 
 class Container extends React.Component {
     constructor(props) {
@@ -99,9 +99,9 @@ class Container extends React.Component {
             emotions[keysSorted[lastItem]] = emotions[keysSorted[lastItem]] + 1;
         })
 
-        let keysSorted = Object.keys(emotions).sort(function (a, b) { return emotions[a] - emotions[b] })
-        this.setState({ groupEmotions: keysSorted.slice(keysSorted.length - 3).reverse() })
-        console.log(emotion_data.length, keysSorted.slice(keysSorted.length - 3).reverse())
+        let keysSorted = Object.keys(emotions).sort(function (a, b) { return emotions[b] - emotions[a] })
+        this.setState({ groupEmotions: keysSorted.slice(0, 3) })
+        console.log(emotion_data.length, keysSorted.slice(0, 3))
     }
 
     getVideo() {
