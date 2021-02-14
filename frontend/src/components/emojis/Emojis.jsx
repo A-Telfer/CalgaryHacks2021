@@ -10,6 +10,16 @@ import scared from './scared.png'
 import sleepy from './sleepy.png'
 import surprise from './surprise.png'
 
+const ICONS = {
+    happy: happy,
+    sad: sad,
+    surprised: sleepy,
+    neutral: sleepy,
+    fearful: happy,
+    disgusted: sad,
+    angry: sad
+}
+
 class Emojis extends Component {
 
     timeout;
@@ -36,26 +46,30 @@ class Emojis extends Component {
         // })
     }
 
+    getIcon(index, size) {
+        return <img className="image"
+            width={size}
+            height={size}
+            src={ICONS[index]}
+            alt={ICONS[index]}
+            key={index} />
+    }
+
+    getIcons(indexArray) {
+        let size = 70
+
+        return (indexArray.map(index => {
+            size = size - 10;
+            return this.getIcon(index, size);
+        }))
+    }
+
     render() {
         return (
             <div style={{ display: 'inline-block' }}>
                 <div className="emojis">
                     <div className="align-right">
-                    <img className="image"
-                        width="70"
-                        height="70"
-                        src={happy}
-                        alt={happy}/>
-                    <img className="image"
-                        width="55"
-                        height="55"
-                        src={sad}
-                        alt={happy}/>
-                    <img className="image"
-                        width="40"
-                        height="40"
-                        src={sleepy}
-                        alt={happy}/>
+                        {this.getIcons(this.props.order)}
                     </div>
                 </div>
             </div>

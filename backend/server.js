@@ -33,8 +33,9 @@ io.on('connection', (socket) => {
     socket.emit('emotion', JSON.stringify(emotion_data));
   });
 
-  socket.on('disconnect', (msg) =>{
-    delete user_emotions[socket.it]
+  socket.on('disconnect', () =>{
+    console.log('disconnected')
+    delete user_emotions[socket.id]
   })
 });
 

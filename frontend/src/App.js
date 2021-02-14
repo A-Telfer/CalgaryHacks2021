@@ -17,15 +17,8 @@ function App() {
   const [selectedRole, setSelectedRole] = useState(null);
 
   return profOrStudentSelected ? (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-around', padding: '20px' }}>
-        <span style={{ fontSize: '40px', fontFamily: 'sans-serif', fontWeight: 'bold'}}>Zoom but better</span>
-        <div style={{visibility: selectedRole == ROLES[0] ? 'visible' : 'hidden'}}>
-          <Emojis />
-      </div>
-      </div>
-      <Container/>
-    </div>
+    
+      <Container role={selectedRole == ROLES[0]}/>
   ) : (
     <div style={{ 
       width: '100vw', 
