@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from '../board/Board';
+import io from 'socket.io-client';
 
 import * as faceapi from 'face-api.js';
 import './style.css';
@@ -11,7 +12,8 @@ class Container extends React.Component {
         this.videoRef = React.createRef();
         this.state = {
             color: "#000000",
-            size: "5"
+            size: "5",
+            socket: undefined
         }
     }
 
@@ -40,15 +42,27 @@ class Container extends React.Component {
         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
 
         if (detections.length > 0) {
-            console.log(detections[0].expressions)
+            if (this.state.socket) {
+                this.state.socket.emit('emotion', JSON.stringify(detections[0].expressions));
+            }
         }
     }
 
     async connectSocket() {
-        socket = io.connect("http://localhost:3001");
+        let socket = await io.connect("http://localhost:3001");
+        this.setState({ socket: socket })
+        socket.on('connect', () => {
+            console.log('socket connected')
+        })
+
+        socket.on('emotion', (data) => {
+            let emotion_data = JSON.parse(data);
+            console.log('emotion_data', data)
+        })
     }
 
     getVideo() {
+        this.connectSocket()
         this.loadModel().then(() => {
             navigator.mediaDevices
                 .getUserMedia({ video: { width: 300 } })

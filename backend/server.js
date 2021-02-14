@@ -6,6 +6,8 @@ const io = require('socket.io')(http, {
     origin: '*',
   }});
 
+const user_emotions = {}
+
 // No CORS error
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -22,7 +24,20 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.emit('test', 'Message from server')
+
+  socket.on('emotion', (msg) => {
+    console.log('message: ' + msg);
+    console.log(socket.id);
+    user_emotions[socket.id] = JSON.parse(msg);
+    let emotion_data = Object.values(user_emotions);
+    socket.emit('emotion', JSON.stringify(emotion_data));
+  });
+
+  socket.on('disconnect', (msg) =>{
+    delete user_emotions[socket.it]
+  })
 });
+
 
 http.listen(3001, () => {
   console.log('listening on *:3001');
