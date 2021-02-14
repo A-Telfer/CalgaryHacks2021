@@ -12,6 +12,16 @@ const buttonStyle = {
   fontSize: '32px'
 };
 
+const ColoredLine = ({ color }) => (
+    <hr
+        style={{
+            color: color,
+            backgroundColor: color,
+            height: 1
+        }}
+    />
+);
+
 function App() {
   const [profOrStudentSelected, setProfOrStudentSelected] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
@@ -22,8 +32,9 @@ function App() {
         <span style={{ fontSize: '40px', fontFamily: 'sans-serif', fontWeight: 'bold'}}>Zoom but better</span>
         <div style={{visibility: selectedRole == ROLES[0] ? 'visible' : 'hidden'}}>
           <Emojis />
+        </div>
       </div>
-      </div>
+      <ColoredLine color="lightgrey" />
       <Container/>
     </div>
   ) : (

@@ -2,6 +2,11 @@ import React from 'react';
 import Board from '../board/Board';
 
 import './style.css';
+import eraser from './eraser.png'
+import pencil from './pencil.png'
+import happy from "../emojis/happy.png";
+import sad from "../emojis/sad.png";
+import sleepy from "../emojis/sleepy.png";
 
 class Container extends React.Component
 {
@@ -11,8 +16,12 @@ class Container extends React.Component
         this.videoRef = React.createRef();
         this.state = {
             color: "#000000",
-            size: "5"
+            size: "5",
+            prevColor: "#000000",
+            prevSize: "5"
         }
+        this.setEraser = this.setEraser.bind(this);
+        this.setPencil = this.setPencil.bind(this);
     }
 
     changeColor(params) {
@@ -24,6 +33,22 @@ class Container extends React.Component
     changeSize(params) {
         this.setState({
             size: params.target.value
+        })
+    }
+
+    setEraser() {
+        this.setState({
+            prevColor: this.state.color,
+            prevSize: this.state.size,
+            color: "#ffffff",
+            size: "30"
+        })
+    }
+
+    setPencil() {
+        this.setState({
+            color: this.state.prevColor,
+            size: this.state.prevSize
         })
     }
 
@@ -67,6 +92,20 @@ class Container extends React.Component
                     <div className="start-webcam-button">
                         <button onClick={() => this.getVideo()}>Start webcam</button>
                     </div>
+                </div>
+                <div className="sidebar" >
+                    <img className="image"
+                         width="50"
+                         height="50"
+                         onClick={this.setPencil.bind(this)}
+                         src={pencil}
+                         alt={pencil}/>
+                    <img className="image"
+                         width="50"
+                         height="50"
+                         onClick={this.setEraser.bind(this)}
+                         src={eraser}
+                         alt={eraser}/>
                 </div>
                 <div style={{ display: 'flex', height: '100%    ' }}>
                     <div style={{ 
