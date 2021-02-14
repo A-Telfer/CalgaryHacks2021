@@ -14,6 +14,8 @@ class Board extends React.Component {
     constructor(props) {
         super(props);
 
+        this.canvasRef = React.createRef();
+
         this.socket.on("canvas-data", function (data) {
 
             var root = this;
@@ -96,10 +98,27 @@ class Board extends React.Component {
         };
     }
 
+    async canvasToLatex() {
+        let canvas = this.canvasRef.current;
+        // let context = canvas.getContext("2d");
+        let data = canvas.toDataURL("image/png");
+        let url = 'http://localhost:3001/tolatex'
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            // mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ photo: data })
+        });
+    }
+
     render() {
         return (
-            <div class="sketch" id="sketch">
-                <canvas className="board" id="board"></canvas>
+            <div class="sketch" id="sketch" >
+                <button onClick={this.canvasToLatex.bind(this)}>Submit</button>
+                <canvas className="board" id="board" ref={this.canvasRef}></canvas>
             </div>
         )
     }

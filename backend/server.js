@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
+const fs = require('fs');
+const spawn = require("child_process").spawn;
+
 const io = require('socket.io')(http, {
   cors: {
     origin: '*',
@@ -17,8 +20,21 @@ app.use(function(req, res, next) {
 
 app.use(express.static('public'))
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/tolatex', (req, res) => {
+  var base64Data = req.body.photo.replace(/^data:image\/png;base64,/, "");
+  console.log(base64Data)
+  require("fs").writeFile("out.png", base64Data, 'base64', function(err) {
+    console.log(err);
+    
+    let pythonProcess = spawn('python',["path/to/script.py", arg1, arg2, ...]);
+    res.send('ok!')
+  });
 });
 
 io.on('connection', (socket) => {
