@@ -1,0 +1,42 @@
+.container {
+    position: fixed;
+    top: 150px;
+    width: 100%;
+    height: 92%;
+    /* background: linear-gradient(0deg, #ffffff, #ffffff); */
+}
+
+.color-picker-container {
+    text-align: center;
+    display: inline;
+    color: #292929;
+}
+
+.brushsize-container {
+    display: inline;
+    color: #292929;
+    margin-left: 12px;
+}
+
+.start-webcam-button {
+    display: inline;
+    margin-left: 15px;
+}
+
+.tools-section {
+    text-align: center;
+}
+
+.board-container {
+    /* width: 100%; */
+    height: 100%; 
+    margin: auto;
+    background: lightgrey;
+}
+
+.video-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
