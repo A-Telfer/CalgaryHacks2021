@@ -38,23 +38,25 @@ class Emojis extends Component {
 
     render() {
         return (
-            <div className="emojis">
-                <div className="align-right">
-                <img className="image"
-                    width="100"
-                    height="100"
-                    src={happy}
-                    alt={sad}/>
-                <img className="image"
-                    width="70"
-                    height="70"
-                    src={sad}
-                    alt={happy}/>
-                <img className="image"
-                    width="50"
-                    height="50"
-                    src={sleepy}
-                    alt={happy}/>
+            <div style={{ display: 'inline-block' }}>
+                <div className="emojis">
+                    <div className="align-right">
+                    <img className="image"
+                        width="100"
+                        height="100"
+                        src={happy}
+                        alt={sad}/>
+                    <img className="image"
+                        width="70"
+                        height="70"
+                        src={sad}
+                        alt={happy}/>
+                    <img className="image"
+                        width="50"
+                        height="50"
+                        src={sleepy}
+                        alt={happy}/>
+                    </div>
                 </div>
             </div>
         );
