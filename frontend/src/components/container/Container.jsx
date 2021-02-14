@@ -6,6 +6,7 @@ import Emojis from "../emojis/Emojis";
 
 import * as faceapi from 'face-api.js';
 import './style.css';
+import { calcEAR} from "./eye.helper";
 
 class Container extends React.Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class Container extends React.Component {
         await faceapi.nets.faceLandmark68Net.loadFromUri('http://localhost:3001/models')
         await faceapi.nets.faceRecognitionNet.loadFromUri('http://localhost:3001/models')
         await faceapi.nets.faceExpressionNet.loadFromUri('http://localhost:3001/models')
+        await faceapi.nets.faceLandmark68TinyNet.loadFromUri('http://localhost:3001/models')
         console.log('Models loaded')
     }
 
@@ -48,6 +50,22 @@ class Container extends React.Component {
             if (this.state.socket) {
                 this.state.socket.emit('emotion', JSON.stringify(detections[0].expressions));
             }
+        }
+        const result = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks(true)
+
+        if (result) {
+
+            const leftEye = result.landmarks.getLeftEye()
+            const rightEye = result.landmarks.getRightEye()
+            const EAR = calcEAR(leftEye) + calcEAR(rightEye)
+            const text = ['EAR: ' + EAR.toString()]
+            if (EAR < 50) {
+                console.log("ear less than 50", text)
+            } else {
+                console.log("ear greater than 50", text)
+            }
+
+        } else {
         }
     }
 
