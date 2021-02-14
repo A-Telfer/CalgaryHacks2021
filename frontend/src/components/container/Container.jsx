@@ -1,4 +1,5 @@
 import React from 'react';
+import { Component } from 'react';
 import Board from '../board/Board';
 import io from 'socket.io-client';
 
@@ -8,7 +9,9 @@ import * as faceapi from 'face-api.js';
 import './style.css';
 import { calcEAR} from "./eye.helper";
 
-class Container extends React.Component {
+import cv from "../../services/cv";
+
+class Container extends Component {
     constructor(props) {
         super(props);
 
@@ -121,7 +124,79 @@ class Container extends React.Component {
         });
     };
 
+    startDrawing() {
+        navigator.mediaDevices
+            .getUserMedia({ video: { width: 300 } })
+            .then((stream) => {
+                let video = this.videoRef.current;
+                video.srcObject = stream;
+                video.play();
 
+                const greenColorUpper = hue => new cv.Vec(hue, 0.8 * 255, 0.6 * 255); // change this values
+                const greenColorLower = hue => new cv.Vec(hue, 0.1 * 255, 0.05 * 255); // change this values
+
+                let dst = new cv.matFromImageData(video.height, video.width, cv.CV_8UC1);
+                let cap = new cv.VideoCapture(video);
+
+
+                const FPS = 30;
+                function processVideo() {
+                    try {
+                        let frame = new cv.matFromImageData(video.height, video.width, cv.CV_8UC4);
+                        cap.read(frame);
+
+                        let begin = Date.now();
+
+                        const imgHLS = frame.cvtColor(cv.COLOR_BGR2HLS);
+                        const rangeMask = imgHLS.inRange(greenColorLower(80), greenColorUpper(140)); // change this values
+
+                        const blurred = rangeMask.blur(new cv.Size(10, 10));
+                        const thresholded = blurred.threshold(
+                            200,
+                            255,
+                            cv.THRESH_BINARY
+                        );
+
+                        const contours = new cv.MatVector();
+                        const hierarchy = new cv.Mat();
+                        const thres = thresholded
+
+                        let cnts = cv.findContours(thres, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
+                        cnts = (cnts.length == 2) ? cnts[0] : (cnts.length == 3) ? cnts[1] : cnts
+
+                        console.log("testingtesting", cnts.length.toString())
+
+                        let c;
+
+                        if (cnts.length > 0) {
+                            c = cnts.reduce(function(max, cur) {
+                                // here key is the cv2.contourArea function,
+                                // we apply that on the cnts[i] and finds the cnts[i]
+                                // such that cv2.contourArea(cnts[i]) is maximum
+                                if(cv.contourArea(max) < cv.countourArea(cur)) {
+                                    return cur
+                                } else {
+                                    return max
+                                }
+                            });
+                            console.log("yayyyyyyy", cv.minEnclosingCircle(c))
+                        }
+
+                        cv.cvtColor(frame, dst, cv.COLOR_RGBA2GRAY);
+                        // schedule the next one.
+                        let delay = 1000 / FPS - (Date.now() - begin);
+                        setTimeout(processVideo, delay);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+
+                setTimeout(processVideo, 0);
+            })
+            .catch(err => {
+                console.error("error:", err);
+            });
+    }
 
 
     render() {
@@ -154,6 +229,9 @@ class Container extends React.Component {
 
                         <div className="start-webcam-button">
                             <button onClick={() => this.getVideo()}>Start webcam</button>
+                        </div>
+                        <div className="start-webcam-button">
+                            <button onClick={() => this.startDrawing()}>Start drawing in space</button>
                         </div>
                     </div>
                     <div style={{ display: 'flex', height: '100%    ' }}>
