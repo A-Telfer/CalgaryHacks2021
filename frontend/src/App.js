@@ -18,7 +18,7 @@ function App() {
 
   return profOrStudentSelected ? (
     
-      <Container role={selectedRole == ROLES[0]}/>
+      <Container role={true}/>
   ) : (
     <div style={{ 
       width: '100vw', 
