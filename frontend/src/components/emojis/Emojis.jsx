@@ -13,11 +13,11 @@ import surprise from './surprise.png'
 const ICONS = {
     happy: happy,
     sad: sad,
-    surprised: sleepy,
+    surprised: surprise,
     neutral: sleepy,
-    fearful: happy,
-    disgusted: sad,
-    angry: sad
+    fearful: scared,
+    disgusted: disgust,
+    angry: angry
 }
 
 class Emojis extends Component {
