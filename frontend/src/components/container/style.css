@@ -3,7 +3,7 @@
     top: 150px;
     width: 100%;
     height: 92%;
-    background: linear-gradient(0deg, #ffffff, #ffffff);
+    /* background: linear-gradient(0deg, #ffffff, #ffffff); */
 }
 
 .color-picker-container {
@@ -18,16 +18,25 @@
     margin-left: 12px;
 }
 
+.start-webcam-button {
+    display: inline;
+    margin-left: 15px;
+}
+
 .tools-section {
     text-align: center;
 }
 
 .board-container {
-    width: 75%;
-    height: 90%;
+    /* width: 100%; */
+    height: 100%; 
     margin: auto;
-    margin-left: 4%;
-    margin-right: 20%;
-    margin-top: 1%;
-    background: #ffffff;
+    background: lightgrey;
+}
+
+.video-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

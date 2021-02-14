@@ -8,6 +8,7 @@ class Container extends React.Component
     constructor(props) {
         super(props);
 
+        this.videoRef = React.createRef();
         this.state = {
             color: "#000000",
             size: "5"
@@ -25,6 +26,21 @@ class Container extends React.Component
             size: params.target.value
         })
     }
+
+    getVideo() {
+        navigator.mediaDevices
+          .getUserMedia({ video: { width: 300 } })
+          .then(stream => {
+            let video = this.videoRef.current;
+            video.srcObject = stream;
+            video.play();
+        })
+        .catch(err => {
+            console.error("error:", err);
+        });
+    };
+    
+    
 
     render() {
 
@@ -48,11 +64,25 @@ class Container extends React.Component
                         </select>
                     </div>
 
+                    <div className="start-webcam-button">
+                        <button onClick={() => this.getVideo()}>Start webcam</button>
+                    </div>
                 </div>
-
-                <div class="board-container">
-                    <Board color={this.state.color} size={this.state.size}></Board>
-                </div>
+                <div style={{ display: 'flex', height: '100%    ' }}>
+                    <div style={{ 
+                        flex: '1', 
+                        display: 'flex', 
+                        justifyContent: 'center', 
+                        alignItems: 'center'
+                    }}>
+                        <div class="board-container">
+                            <Board color={this.state.color} size={this.state.size}></Board>
+                        </div>
+                    </div>
+                    <div className="video-container">
+                        <video style={{ height: '100%', width: '100%' }} ref={this.videoRef} />
+                    </div>
+                </div>  
             </div>
         )
     }
