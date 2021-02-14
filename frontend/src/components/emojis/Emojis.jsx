@@ -42,18 +42,18 @@ class Emojis extends Component {
                 <div className="emojis">
                     <div className="align-right">
                     <img className="image"
-                        width="100"
-                        height="100"
-                        src={happy}
-                        alt={sad}/>
-                    <img className="image"
                         width="70"
                         height="70"
+                        src={happy}
+                        alt={happy}/>
+                    <img className="image"
+                        width="55"
+                        height="55"
                         src={sad}
                         alt={happy}/>
                     <img className="image"
-                        width="50"
-                        height="50"
+                        width="40"
+                        height="40"
                         src={sleepy}
                         alt={happy}/>
                     </div>

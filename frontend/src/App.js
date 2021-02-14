@@ -19,8 +19,10 @@ function App() {
   return profOrStudentSelected ? (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-around', padding: '20px' }}>
-        <span style={{ fontSize: '40px' }}>Zoom but better</span>
-        { selectedRole == ROLES[0] ? <Emojis/> : '' }
+        <span style={{ fontSize: '40px', fontFamily: 'sans-serif', fontWeight: 'bold'}}>Zoom but better</span>
+        <div style={{visibility: selectedRole == ROLES[0] ? 'visible' : 'hidden'}}>
+          <Emojis />
+      </div>
       </div>
       <Container/>
     </div>

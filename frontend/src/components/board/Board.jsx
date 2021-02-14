@@ -62,7 +62,7 @@ class Board extends React.Component {
             last_mouse.y = mouse.y;
 
             mouse.x = e.pageX - this.offsetLeft;
-            mouse.y = e.pageY - this.offsetTop;
+            mouse.y = e.pageY - 180;
         }, false);
 
 
